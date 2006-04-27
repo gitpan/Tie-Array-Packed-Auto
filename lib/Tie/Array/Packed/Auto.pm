@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 our $force_pure_perl_backend;
 
@@ -68,6 +68,10 @@ sub AUTOLOAD {
         $next_id++;
         $id{$packer} = $next_id;
         Tie::Array::PackedC->import($id{$packer}, $packer);
+
+        my $parent =  "Tie::Array::PackedC::$id{$packer}";
+        no strict 'refs';
+        *{$parent.'::_TieArrayPackedAuto_TIEARRAY'} = *{$parent.'::TIEARRAY'};
     }
     no strict 'refs';
     push @{$class.'::ISA'}, "Tie::Array::PackedC::$id{$packer}";
@@ -84,6 +88,15 @@ sub make_with_packed {
     my $class = shift;
     tie my(@self), $class, @_;
     return \@self
+}
+
+sub TIEARRAY {
+    # local $_[1] = $_[1];
+    # shift->_TieArrayPackedAuto_TIEARRAY(@_);
+
+    my $class = shift;
+    my $str = shift;
+    $class->_TieArrayPackedAuto_TIEARRAY($str, @_);
 }
 
 1;
