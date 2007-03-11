@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 222;
+use Test::More tests => 223;
 
 BEGIN { $Tie::Array::Packed::Auto::force_pure_perl_backend = 1 }
 
@@ -52,9 +52,13 @@ for my $packer (qw(F f d)) {
 
 }
 
-my ( $s, @a ) = pack "l!*", 1 .. 5;
+my ( $s, @a ) = pack "i*", 1 .. 5;
 tie @a, 'Tie::Array::Packed::Integer', $s, reverse 1 .. 4;
 is( "@a", "4 3 2 1 5", "Doc check 1 - Initialization overlap" );
+$s = pack "l!*", 1 .. 5;
+tie @a, 'Tie::Array::Packed::LongNative', $s, reverse 1 .. 4;
+is( "@a", "4 3 2 1 5", "Doc check 1 - Initialization overlap" );
+
 $a[5] = 10;
 is ($a[5],10, "Store into \$array[\@array] works");
 isnt( $s, tied(@a)->string, "Doc check 2 - Real versus method string access" );

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 our $force_pure_perl_backend;
 
@@ -129,7 +129,7 @@ order to provide an API identical to that of L<Tie::Packed::Array>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Salvador FandiE<ntilde>o (sfandino@yahoo.com).
+Copyright (C) 2006, 2007 by Salvador FandiE<ntilde>o (sfandino@yahoo.com).
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,
